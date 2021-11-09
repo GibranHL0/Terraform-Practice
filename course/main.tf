@@ -4,6 +4,10 @@ provider "aws" {
   secret_key = var.secret_key
 }
 
+variable "region" {
+  value = "us-east-2"
+}
+
 # 1. Create VPC
 resource "aws_vpc" "prod_vpc" {
   cidr_block = "10.0.0.0/16"
@@ -45,7 +49,7 @@ resource "aws_route_table" "prod_route_table" {
 resource "aws_subnet" "subnet_1" {
   vpc_id = aws_vpc.prod_vpc.id
   availability_zone = "us-east-2a"
-  cidr_block = "10.0.0.0/24"
+  cidr_block = "10.0.1.0/24"
 
   tags = {
     Name = "prod-subnet"
@@ -140,4 +144,16 @@ resource "aws_instance" "web_server_instance" {
   tags = {
     Name = "ubuntu"
   }
+}
+
+output "server_public_ip" {
+  value = aws_eip.one.public_dns
+}
+
+output "server_private_ip" {
+  value = aws_instance.web_server_instance.private_ip
+}
+
+output "server_id" {
+  value = aws_instance.web_server_instance.id
 }
