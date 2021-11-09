@@ -1,9 +1,9 @@
-resource "aws_security_group" "test_security_group" {
-  vpc_id = aws_vpc.test_vpc.id
+resource "aws_security_group" "allow_ssh" {
+  vpc_id = aws_vpc.red_hat_vpc.id
   name = "allow-all-sg"
 
   ingress {
-      protocol = "tcp"
+      protocol = "SSH"
       cidr_blocks = [
           "0.0.0.0/0"
       ]
